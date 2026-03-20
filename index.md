@@ -1,9 +1,9 @@
 ---
 layout: page
 title: About Me
-permalink: /about/
+permalink: /
 redirect_from:
-  - /
+  - /about/
 ---
 
 # 안녕하세요, 장영준입니다. 👋
