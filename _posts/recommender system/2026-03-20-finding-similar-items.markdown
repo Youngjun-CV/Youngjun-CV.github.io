@@ -2,7 +2,7 @@
 layout: post
 title: "비슷함을 수학적으로 정의하는 법: Similarity 의 본질"
 date: 2026-03-20 23:56:29 +0900
-category: ["RecommenderSystem"]
+category: ["Recommender System"]
 ---
 
 ## 🤔왜 "유사도"를 수학적으로 정의해야 할까?
