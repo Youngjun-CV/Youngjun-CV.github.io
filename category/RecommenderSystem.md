@@ -1,6 +1,6 @@
 ---
 layout: category
 title: "Recommender System"
-category: Recommender System
+category: RecommenderSystem
 permalink: /category/RecommenderSystem/
 ---
