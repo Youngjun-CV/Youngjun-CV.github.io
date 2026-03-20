@@ -97,7 +97,7 @@ code {
 	/*position: fixed;*/
 	display: flex;
 	flex-flow: column nowrap;
-	flex: 0 0 280px;
+	flex: 0 0 300px;
 	padding: 20px;
 	z-index: 1;
 	background-color: #222;
