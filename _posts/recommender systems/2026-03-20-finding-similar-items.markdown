@@ -1,11 +1,11 @@
 ---
-layout: post
-title: '비슷함'을 수학적으로 정의하는 법: Similarity의 본질
-date: 2026-03-20 23:56:29 +0900
-categories: recommender systems
+layout:  post
+title:  '비슷함'을 수학적으로 정의하는 법: Similarity의 본질
+date:  2026-03-20 23:56:29 +0900
+categories:  recommender systems
 ---
 
-## 🤔왜 '유사도'를 수학적으로 정의해야 할까?
+## 🤔왜 "유사도"를 수학적으로 정의해야 할까?
 
 우리는 일상적으로 "이 영화랑 저 영화랑 비슷해"라고 말합니다. 하지만 컴퓨터에게 "비슷한 거 가져와"라고 하면 이해하지 못하죠. '비슷하다'라는 느낌은 매우 **주관적**이기 때문입니다.
 
