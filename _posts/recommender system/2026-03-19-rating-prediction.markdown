@@ -43,7 +43,7 @@ $f(u, i) = \alpha$
 ### (2) 사용자와 아이템의 성향 (Bias) 모델
 사용자가 평소 점수를 후하게 주는지, 특정 아이템이 원래 평점이 높은지 등 개별 성향을 반영합니다.
 
-$$f(u, i) = \alpha + \beta_u + \beta_i$$
+$f(u, i) = \alpha + \beta_u + \beta_i$
 
 * $\beta_u$: 사용자 $u$ 의 성향 (평균에 비해 얼마나 별점을 잘 주는가?)
 * $\beta_i$: 아이템 $i$ 의 성향 (평균에 비해 얼마나 별점을 높게 받는가?)
@@ -55,8 +55,8 @@ $$arg \min_{\alpha, \beta} \sum_{u, i} (\alpha + \beta_u + \beta_i - R_{u,i})^2 
 
 이 모델에서 **기울기가 0이 되는 지점**을 찾아 미분하면 다음과 같이 $\beta$ 값을 구할 수 있습니다.
 
-$$\beta_u = \frac{\sum_{i \in I_u} R_{u,i} - (\alpha + \beta_i)}{\lambda + |I_u|}$$
-$$\beta_i = \frac{\sum_{i \in U_i} R_{u,i} - (\alpha + \beta_u)}{\lambda + |U_i|}$$
+$\beta_u = \frac{\sum_{i \in I_u} R_{u,i} - (\alpha + \beta_i)}{\lambda + |I_u|}$
+$\beta_i = \frac{\sum_{i \in U_i} R_{u,i} - (\alpha + \beta_u)}{\lambda + |U_i|}$
 
 ### (4) Bias 모델 최적화 예시
 * **설정:** 전체 평균($\alpha$) = 3.0, 정규화 계수($\lambda$) = 2.0
@@ -76,7 +76,7 @@ $$\beta_u = \frac{0.5 + 1.0}{2.0 \text{ (정규화)} + 2 \text{ (평가 개수)}
 ### (1) 잠재 요인 (Latent Factor) 모델
 사용자와 아이템의 속성을 동일한 차원의 벡터로 표현하여 둘 사이의 특수한 선호 관계를 모델링합니다.
 
-$$f(u, i) = \alpha + \beta_u + \beta_i + \gamma_u \cdot \gamma_i$$
+$f(u, i) = \alpha + \beta_u + \beta_i + \gamma_u \cdot \gamma_i$
 
 * **$\gamma_u, \gamma_i$:** 사용자 및 아이템의 **잠재 벡터 (Latent Vector)**
 
