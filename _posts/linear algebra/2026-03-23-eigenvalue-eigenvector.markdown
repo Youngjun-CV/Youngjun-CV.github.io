@@ -75,6 +75,7 @@ $$A = P \Lambda P^{-1}$$
 **3. 고유벡터 계산:**
   * $\lambda = 4$ 일 때: $\begin{bmatrix} -1 & 1 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = 0 \Rightarrow v_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$
   * $\lambda = 2$ 일 때: $\begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = 0 \Rightarrow v_2 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}$
+
 **4. 결과:** 행렬 $A$ 는 $(1, 1)$ 방향으로 4배, $(1, -1)$ 방향으로 2배 늘리는 변환임을 알 수 있습니다.
 
 ---
