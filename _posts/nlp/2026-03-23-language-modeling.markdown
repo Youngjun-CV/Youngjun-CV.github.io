@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "제목 추천좀"
+title: "다음 단어를 예측하는 법: 언어 모델링과 n-gram"
 date: 2026-03-23 17:56:36 +0900
 category: NLP
 ---
@@ -47,7 +47,7 @@ $$P(x^{(t+1)} | x^{(t)}, \dots, x^{(t-n+2)}) \approx \frac{count(x^{(t+1)}, x^{(
 
 * "students opened their" 가 총 1,000번 등장했고,
 * "students opened their books" 가 400번 등장했다면,
-* $P(\text{books} | \text{students opened their}) = 0.4$ 가 됩니다.
+* $$P(\text{books} | \text{students opened their}) = 0.4$$ 가 됩니다.
 
 ### (4) n-gram의 단점
 이 통계적 방식에는 **희소성(Sparsity)** 과 **저장공간** 이라는 치명적인 문제가 존재합니다.
