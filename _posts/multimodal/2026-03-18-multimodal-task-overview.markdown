@@ -2,7 +2,7 @@
 layout: post
 title: "Multimodal Task Overview"
 date: 2026-03-18 19:36:05 +0900
-category: multimodal
+category: Multimodal
 ---
 
 ## 🤔 멀티모달(Multimodal), 무엇을 풀 수 있을까?
