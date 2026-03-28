@@ -1,0 +1,68 @@
+---
+layout: post
+title: "시간을 거슬러 흐르는 기울기: BPTT의 원리와 기울기 소실의 수학적 이해"
+date: 2026-03-25 20:39:24 +0900
+category: NLP
+---
+
+## 😌 들어가며
+안녕하세요. 지난 포스팅에서 **RNN** 의 기본 구조와 학습 원리를 살펴보았습니다. 오늘은 **RNN** 이 가중치를 계산하는 매커니즘인 **BPTT**와 그 과정에서 발생하는 부작용인 **기울기 소실**에 대해 알아보겠습니다.
+
+---
+
+## 🅱️ BPTT (Backpropagtion THrough Time)의 개념과 탄생 배경
+일반적인 신경망과 달리 **RNN**은 **가중치 공유 (Weight Sharing)** 라는 독특한 특성을 가집니다. 똑같은 가중치 $W_h$ 가 모든 시점($t$)마다 반복해서 사용되죠. 따라서 특정 시점의 에러를 수정하려면, 그 가중치가 과거의 모든 시점에서 수행했던 '행적'을 한꺼번에 추적해야 합니다. 이를 위해 고안된 것이 바로 시간을 거슬러 올라가며 기울기를 전달하는 **BPTT** 입니다.
+
+---
+
+## 📏 BPTT의 수학적 원리와 기울기 합산
+**RNN** 의 가중치 $W_h$ 는 모든 시점에서 공유됩니다. 따라서 특정 시점의 손실 $J^{(t)}$ 에 대한 기울기를 구할 때는 , 그 에러가 현재뿐만 아니라 과거의 $W_h$ 들에 미친 영향력을 모두 합산해야 합니다 .
+
+### "How are you today" ($t=3$ 일 때의 예시)
+이 문장에서 시점별 단어는 $x^{(1)}=$ "How", $x^{(2)}=$ "are", $x^{(3)}=$ "you", $x^{(4)}=$ "today" 입니다 . 우리가 세 번째 단어 "you" 를 보고 다음 단어 "today" 를 예측하다가 에러 $J^{(3)}$ 가 발생했다고 가정해 봅시다 . 이때 $W_h$ 에 대한 기울기 $\frac{\partial J^{(3)}}{\partial W_h}$ 는 다음과 같이 세 가지 과거 시점의 기여도를 합쳐서 구합니다 .
+
+$$\frac{\partial J^{(3)}}{\partial W_h} = \frac{\partial J^{(3)}}{\partial W_h} \bigg|_{(3)} + \frac{\partial J^{(3)}}{\partial W_h} \bigg|_{(2)} + \frac{\partial J^{(3)}}{\partial W_h} \bigg|_{(1)}$$
+
+각 항을 **연쇄 법칙 (Chain Rule)** 에 따라 더 자세히 전개해 보겠습니다.
+
+* **$i=3$ (현재 시점의 기여)**: $J^{(3)}$ 이 발생한 시점의 직접적인 책임입니다 .
+
+$$\frac{\partial J^{(3)}}{\partial \hat{y}^{(3)}} \cdot \frac{\partial \hat{y}^{(3)}}{\partial h^{(3)}} \cdot \frac{\partial h^{(3)}}{\partial W_h}$$
+
+* **$i=2$ (한 단계 과거의 기여)**: 에러가 $h^{(3)}$ 에서 $h^{(2)}$ 로 거슬러 올라가 , "are" 를 처리하던 시점의 $W_h$ 에 책임을 묻습니다 .
+
+$$\frac{\partial J^{(3)}}{\partial \hat{y}^{(3)}} \cdot \frac{\partial \hat{y}^{(3)}}{\partial h^{(3)}} \cdot \mathbf{\frac{\partial h^{(3)}}{\partial h^{(2)}}} \cdot \frac{\partial h^{(2)}}{\partial W_h}$$
+
+* **$i=1$ (두 단계 과거의 기여)**: 에러가 $h^{(3)} \rightarrow h^{(2)} \rightarrow h^{(1)}$ 까지 거슬러 올라가 , 문장 맨 처음 "How" 를 처리하던 시점의 $W_h$ 까지 추적합니다 .
+
+$$\frac{\partial J^{(3)}}{\partial \hat{y}^{(3)}} \cdot \frac{\partial \hat{y}^{(3)}}{\partial h^{(3)}} \cdot \frac{\partial h^{(3)}}{\partial h^{(2)}} \cdot \mathbf{\frac{\partial h^{(2)}}{\partial h^{(1)}}} \cdot \frac{\partial h^{(1)}}{\partial W_h}$$
+
+---
+
+## 🎢 기울기 소실 (Vanishing Gradient)의 수학적 증명
+방금 살펴본 **BPTT** 의 전개 과정에서 우리는 핵심적인 공통 항을 발견할 수 있습니다 . 바로 은닉 상태 간의 미분인 $\frac{\partial h^{(t)}}{\partial h^{(t-1)}}$ 입니다 . 이 항이 반복해서 곱해지면서 **기울기 소실** 문제가 발생합니다 .
+
+### 수학적 증명
+**RNN** 의 은닉 상태 업데이트 식은 $h^{(t)} = \sigma(W_h h^{(t-1)} + W_e e^{(t)} + b_1)$ 입니다 . 이해를 돕기 위해 활성화 함수 $\sigma$ 가 선형적이라고 가정해 봅시다 .
+
+* **은닉 상태 간의 미분값 계산**: 실제로는 활성화 함수의 미분값이 곱해지지만, 본질적으로 가중치 행렬 $W_h$ 가 곱해지는 구조입니다.
+
+$$\frac{\partial h^{(t)}}{\partial h^{(t-1)}} = W_h$$
+
+* **시점 $i$ 의 에러를 시점 $j$ 로 전달 (Chain Rule)**: 시점 $i$ 와 $j$ 의 차이를 $l = i - j$ 라고 할 때, 기울기는 다음과 같이 전달됩니다.
+
+$$\frac{\partial J^{(i)}}{\partial h^{(j)}} = \frac{\partial J^{(i)}}{\partial h^{(i)}} \prod_{j < t \le i} \frac{\partial h^{(t)}}{\partial h^{(t-1)}} = \frac{\partial J^{(i)}}{\partial h^{(i)}} \cdot \mathbf{W_h^l}$$
+
+* **고유값 (Eigenvalue) 분석**: 가중치 행렬 $W_h$ 를 고유 벡터들의 기저로 분해하여 생각하면, 기울기의 크기는 $W_h$ 의 고윳값인 $\lambda$ 에 의존하게 됩니다. 
+
+$$\frac{\partial J^{(i)}}{\partial h^{(i)}} W_h^l = \sum_{k=1}^n c_k \mathbf{\lambda_k^l} q_k$$
+
+* **결론**: 만약 모든 고윳값 $\lambda_k$ 의 절대값이 $1$ 보다 작다면 ($|\lambda| < 1$), 시점 차이 $l$ 이 커질수록 $\lambda^l$ 은 기하급수적으로 **0** 에 수렴합니다 . 반대로 $1$ 보다 크면 **기울기 폭주 (Exploding)** 가 발생합니다.
+
+위에서 수학적으로 증명했듯, 기울기가 사라지면 모델은 아주 먼 과거의 정보를 업데이트할 동력을 잃어버립니다. 주어와 동사 사이의 거리가 먼 문장에서 주어의 정보를 끝까지 유지하지 못하는 **'장기 의존성 (Long-term Dependency)'** 붕괴가 일어나는 근복적인 이유입니다.
+
+---
+
+## 🫡 마치며
+오늘 우리는 **BPTT**의 전개 수식을 통해 에러가 어떻게 과거로 흐르는지, 그리고 그 통로에서 가중치 행렬이 반복해서 곱해지며 어떻게 정보가 증발(소실) 하는지 수학적으로 확인했습니다.
+결국 **RNN** 은 구조적으로 과거의 정보를 점점 잊어갈 수 밖에 없는 운명을 타고난 셈입니다. 다음 포스팅에서는 '셀 상태'를 도입하여 기울기 소실을 완화한 모델인 **LSTM**에 대해 알아보겠습니다. 감사합니다.
