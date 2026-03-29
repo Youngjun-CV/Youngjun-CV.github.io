@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Flickr8k 데이터셋 구축 및 이미지-텍스트 임베딩 실습"
+title: "Joint Embedding을 위한 첫걸음: Flickr8k 데이터 전처리 실습"
 date: 2026-03-25 23:46:25 +0900
 category: Multimodal
 ---
