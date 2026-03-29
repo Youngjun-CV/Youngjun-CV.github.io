@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Flickr8k 데이터셋 로드 및 전처리 실습"
+title: "Flickr8k 데이터셋 구축 및 이미지-텍스트 임베딩 실습"
 date: 2026-03-25 23:46:25 +0900
 category: Multimodal
 ---
