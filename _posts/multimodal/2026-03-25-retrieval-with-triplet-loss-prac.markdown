@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "triplet loss 실습"
+title: "이미지와 텍스트의 공통 공간: Multi-modal Retrieval 시스템 구현"
 date: 2026-03-25 23:58:25 +0900
 category: Multimodal
 ---
