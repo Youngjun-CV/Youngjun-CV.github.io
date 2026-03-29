@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "이미지와 텍스트의 공통 공간: Multi-modal Retrieval 시스템 구현"
+title: "멀티모달 Retrieval 시스템: Triplet Loss로 완성하는 이미지-텍스트 매칭 실습"
 date: 2026-03-25 23:58:25 +0900
 category: Multimodal
 ---
