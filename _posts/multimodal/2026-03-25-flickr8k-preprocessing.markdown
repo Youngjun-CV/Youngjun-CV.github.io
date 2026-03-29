@@ -215,13 +215,16 @@ print(f'Embedding matrix: {glove_vectors.shape}')
 
 ---
 
-## 캡선 -> TOKEN ID
+## 🧹 텍스트 정제 - 패딩과 텐서 변환
+우리가 가진 캡션들의 길이는 제각각입니다. 따라서 모델에 데이터를 넣어주기 전에 데이터의 크기를 맞춰줘야 합니다. 
+
+```python
 def caption_to_ids(caption, word2idx, max_len=32):
     tokens = caption.split()
     ids = [word2idx.get(w, UNK_IDX) for w in tokens]
-    ids = ids[:max_len]
-    length = len(ids)
-    ids = ids + [PAD_IDX] * (max_len - length)
+    ids = ids[:max_len] # 최대 길이만큼 자르기
+    length = len(ids) # 패딩 넣기 전 길이
+    ids = ids + [PAD_IDX] * (max_len - length) # Padding
     return ids, length
 
 MAX_LEN = 32
@@ -233,11 +236,16 @@ for cap in captions:
 
 caption_ids = torch.tensor(all_ids, dtype=torch.long)
 caption_lengths = torch.tensor(all_lens, dtype=torch.long)
-print(f'Caption IDs: {caption_ids.shape}, Lengths: {caption_lengths.shape}')
+print(f'Caption IDs: {caption_ids.shape}, Lengths: {caption_lengths.shape}') # (8091, 32)이 출력되면 성공
+```
+앞서 만든 **word2idx** 사전을 참조하여 단어를 번호로 바꿉니다. caption_to_ids 함수는 토큰을 인덱스로 변환한 값과 패딩을 넣기 전의 실제 문장 길이를 리턴합니다. 
 
 ---
 
-## ??? 저장
+## 🔽 전처리 데이터 저장
+길었던 전처리 과정이 끝났습니다. 이미지 특징 추출, 단어 사전 구축, 텍스트 패딩까지 완료된 모든 데이터를 "PyTorch"의 ".pt" 형식으로 저장합니다.
+
+```python
 SAVE_PATH = 'flickr8k_data.pt'
 
 torch.save({
@@ -255,21 +263,9 @@ torch.save({
 
 size_mb = os.path.getsize(SAVE_PATH) / 1e6
 print(f'Saved: {SAVE_PATH} ({size_mb:.1f} MB)')
+```
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## 🫡 마치며
+이번에는 실질적인 모델을 만들기 전 데이터를 전처리 하는 과정을 거쳤습니다. 다음 포스팅에서는 본격적인 모델을 만들어 보겠습니다. 감사합니다.
