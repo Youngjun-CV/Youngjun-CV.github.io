@@ -22,7 +22,7 @@ category: Multimodal
 
 3. **공간 변환의 의미:** FC Layer 는 수학적으로 행렬 곱을 의미하며, 이는 곧 벡터가 위치한 **공간을 변환 (Linear Transformation)** 하는 작업입니다. 아래 수식처럼 선형 결합을 통해 데이터를 새로운 차원으로 투영합니다.
 
-* $$[\begin{matrix}a&b\\ c&d\\ \end{matrix}][\begin{matrix}x\\ y\end{matrix}]=x[\begin{matrix}a\\ c\end{matrix}]+y[\begin{matrix}b\\ d\end{matrix}]=[\begin{matrix}a \cdot x + b \cdot y \\ c \cdot x + d \cdot y \end{matrix}]$$
+$$[\begin{matrix}a&b\\ c&d\\ \end{matrix}][\begin{matrix}x\\ y\end{matrix}]=x[\begin{matrix}a\\ c\end{matrix}]+y[\begin{matrix}b\\ d\end{matrix}]=[\begin{matrix}a \cdot x + b \cdot y \\ c \cdot x + d \cdot y \end{matrix}]$$
 
 이 과정을 거치면 비로소 두 모달리티는 동일한 좌표계 위에서 **유사도(Similarity Score)** 를 계산할 수 있는 준비를 마치게 됩니다.
 
