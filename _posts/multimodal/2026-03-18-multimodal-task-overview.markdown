@@ -117,7 +117,7 @@ $$BLEU = \exp \left( \sum_{n=1}^{N} w_n \ln precision_n \right)$$
 * **$precision_n$:** 생성된 문장 내 n-gram 중 실제 정답 문장에 포함된 비율입니다.
 * **기하평균 사용 이유:** 각 n-gram 점수가 골고루 높아야 높은 최종 점수를 얻을 수 있도록 하여, 문장의 문법적 정확성과 의미적 유사성을 동시에 고려합니다.
 
-#### ◼️계산 예시 (4-gram 기준)** 
+#### ◼️계산 예시 (4-gram 기준)
 각 단계별 정밀도를 모두 곱한 값의 $\frac{1}{4}$ 제곱을 구합니다.
 
 $$Score: (\prod_{i=1}^{4} precision_{i} )^{\frac{1}{4}} = (\frac{10}{14} \times \frac{5}{13} \times \frac{2}{12} \times \frac{1}{11})^{\frac{1}{4}}$$
