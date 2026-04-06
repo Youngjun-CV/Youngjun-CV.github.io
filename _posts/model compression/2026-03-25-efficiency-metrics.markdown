@@ -124,8 +124,8 @@ $$Latency \approx \max(T_{computation}, T_{memory})$$
 
 * **계산식:** 파라미터 수 $\times$ 데이터 타입 크기 (Bytes)
 * **AlexNet 예시 (약 61M Parameters):**
- * FP32 (4 Bytes): $61M \times 4 \approx 244 \text{ MB}$
- * INT8 (1 Byte): $61M \times 1 \approx 61 \text{ MB}$
+   * **FP32 (4 Bytes):** $61M \times 4 \approx 244 \text{ MB}$
+   * **INT8 (1 Byte):** $61M \times 1 \approx 61 \text{ MB}$
 
 ### 🟩 활성화 값 (Activations)
 추론 시 레이어를 통과하며 생성되는 중간 데이터(Feature Map)의 크기다. 가중치는 한 번 로드하면 고정이지만, 활성화 값은 입력 데이터가 들어올 때마다 실시간으로 생성되므로 메모리 점유율을 결정하는 핵심 요소가 된다.
@@ -158,7 +158,15 @@ $$Latency \approx \max(T_{computation}, T_{memory})$$
 * $B \times C_{o} \times k_{w} \times k_{h} \times W_{o} \times H_{o}$
 * 입력 채널 하나당 커널 하나가 대응($C_{i}=1$)하므로 연산량이 획기적으로 줄어든다.
 
+### 🟩 FLOP (Floating Point Operations)
+부동 소수점 연산 횟수를 의미한다. 하드웨어 스펙 시트에서 가장 많이 보이는 단위이기도 하다.
+* **1 MAC = 2 FLOPs:** 1 MAC 안에는 곱셈 1번과 덧셈 1번이 들어있으므로, FLOP으로 환산할 때는 MAC 수에 2를 곱해준다.
+
+### 🟩 OP (Operations)
+부동 소수점(Float)뿐만 아니라 정수형(Integer), 논리 연산 등 모든 종류의 산술 연산을 포괄하는 단위다. 연산의 종류와 상관없이 하드웨어가 처리해야 하는 총 업무량이라고 이해하면 쉽다.
+
 ---
+
 ## ✌️ 마치며
 지금까지 인공지능 모델의 효율성을 평가하는 다양한 지표들을 살펴보았다. 이번 포스팅을 통해 알 수 있듯이, 단순히 파라미터가 적다고 해서 무조건 빠른 모델은 아니다. Latency Estimation 수식에서 확인했듯, 연산량뿐만 아니라 메모리 대역폭과 데이터 이동 시간을 종합적으로 고려해야 진짜 '가벼운' 모델을 만들 수 있다.
 
