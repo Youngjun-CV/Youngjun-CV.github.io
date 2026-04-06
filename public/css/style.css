@@ -90,14 +90,16 @@ code {
 .content {
 	/*margin-left: 180px;*/
 	flex: 1 1 auto;
-	padding: 20px 300px;
+    padding: 20px 80px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .sidebar {
 	/*position: fixed;*/
 	display: flex;
 	flex-flow: column nowrap;
-	flex: 0 0 300px;
+	flex: 0 0 260px;
 	padding: 20px;
 	z-index: 1;
 	background-color: #222;
@@ -114,7 +116,7 @@ code {
 }
 
 .sidebar-brand > a {
-	font-size: 300%;
+	font-size: 240%;
 	font-family: 'Gelasio';
 	color: #fff;
 }
