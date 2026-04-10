@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "↔️문맥을 읽는 두가지 차원: Bidirectional과 Multi-Layer"
+title: "↔️ 문맥을 읽는 두가지 차원: Bidirectional과 Multi-Layer"
 date: 2026-03-30 23:19:09 +0900
 category: NLP
 ---
