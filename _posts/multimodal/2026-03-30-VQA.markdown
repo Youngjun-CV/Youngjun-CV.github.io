@@ -1,0 +1,26 @@
+---
+layout: post
+title: "🗂️ VQA (Visual Question Answering): 이미지와 질문의 상관관계 해석과 분류 모델링"
+date: 2026-03-30 18:09:18 +0900
+category: Multimodal
+---
+
+## 😗 들어가며
+지난 포스팅에서는 Image-Text Retrieval 태스크에 대해 다루었다. 이미지나 텍스트가 입력되었을 때 그와 유사한 다른 모달리티의 데이터를 찾는 과제로, 두 정보를 동일한 임베딩 벡터 공간에 위치시키는 것이 핵심이었다. 특히 Triplet loss 를 사용하여 긍정 쌍(Positive pair) 간의 유사도는 높이고 부정 쌍(Negative pair)과는 멀어지게끔 학습하는 방식을 정리했었다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
