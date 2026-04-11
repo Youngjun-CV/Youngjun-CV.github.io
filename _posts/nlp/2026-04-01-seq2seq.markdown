@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "⛓️ 딥러닝 기계 번역의 기초:seq2seq 구조와 원리"
+title: "⛓️ 딥러닝 기계 번역의 기초: seq2seq 구조와 원리"
 date: 2026-04-01 16:49:51 +0900
 category: NLP
 ---
