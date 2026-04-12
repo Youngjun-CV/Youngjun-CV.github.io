@@ -23,13 +23,17 @@ category: ModelCompression
 간단하게 말하자면 "가중치 하나하나를 자유롭게 지울 것인가, 아니면 일정한 규칙이나 덩어리로 묶어서 지울 것인가?"를 결정하는 단위라고 볼 수 있다. 일반적으로 단위를 세밀하게 할수록 정확도 유지에는 유리하지만, 하드웨어에서 연산 속도를 높이기는 어려워진다. 반대로 단위를 크게 묶으면 하드웨어 가속은 쉽지만 정확도가 떨어질 위험이 크다.는 trade off 관계를 지닌다.
 
 ### 🟩 Fine-grained vs Coarse-grained
-<img width=100% alt="image" src="https://github.com/user-attachments/assets/54ab663f-94ee-4831-9644-b0b424ef8bc5" />
+<img style="max-width: 100%; width: 800px;" alt="image" src="https://github.com/user-attachments/assets/54ab663f-94ee-4831-9644-b0b424ef8bc5" />
 
-Granularity 정도는 크게 두 가지로 나눌 수 있다.
+Granularity 단위는 크게 두 가지로 나눌 수 있다.
 
+#### ◼️ Fine-grained (Unstructured)
+Fine-grained (Unstructured): 개별 가중치($weight$)를 하나하나 독립적으로 판단하여 지운다. 제약 조건이 없어서 가장 유연하며, 정확도 하락이 가장 적다. 하지만 0의 위치가 불규칙한 Random Sparsity 가 발생하여 일반적인 컴퓨팅 환경에서는 연산 가속을 기대하기 힘들다.
 
+#### ◼️ Coarse-grained (Structed)
+가중치들을 특정 구조(Structure) 단위로 묶어서 한꺼번에 지운다. 행렬의 행이나 열이 통째로 날아가기 때문에 연산 구조 자체가 단순해진다. 덕분에 특수한 하드웨어 없이도 GPU 나 CPU 에서 실제 추론 속도가 빨라지는 결과를 얻을 수 있다. 하지만 중요한 내용이 사라질 수 있어서 정확도 낮아진다는 거 추가하자
 
-
+### 🟩 
 
 
 
