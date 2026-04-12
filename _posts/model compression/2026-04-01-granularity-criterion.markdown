@@ -24,9 +24,7 @@ category: ModelCompression
 
 ### 🟩 Fine-grained vs Coarse-grained
 <img style="max-width: 100%; width: 800px;"
-     src="https://raw.githubusercontent.com/youngjun-cv/modelcompression/main/images/파일명.png">
-
- <img width="510" height="338" alt="image" src="https://github.com/user-attachments/assets/7fd07324-1e0f-44ac-8cf9-62d93f27865c" />
+     src="https://raw.githubusercontent.com/youngjun-cv/ModelCompression/images/pruning_structed.jpg">
 
 Granularity 단위는 크게 두 가지로 나눌 수 있다.
 
