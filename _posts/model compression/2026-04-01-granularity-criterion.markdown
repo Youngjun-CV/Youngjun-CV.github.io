@@ -25,12 +25,12 @@ category: ModelCompression
 ### 🟩 Fine-grained vs Coarse-grained
 푸르닝 단위는 크게 두 가지로 나눌 수 있다.
 <p align="center">
-  <img src="/images/ModelCompression/pruning_structured.jpg"
+  <img src="/images/ModelCompression/pruning_1.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 
 #### ◼️ Fine-grained (Unstructured)
-개별 가중치($weight$)를 하나하나 독립적으로 판단하여 지운다. 위치에 제약 조건이 없어서 가장 유연하며, 필요한 부분만 골라 지우기 때문에정확도 하락이 가장 적다. 하지만 0의 위치가 불규칙하여, 일반적인 컴퓨팅 환경에서는 연산 가속을 기대하기 힘들다. 0을 건너뛰는 복잡한 로직이 하드웨어 수준에서 뒷받침되지 않으면 실제 속도는 그대로인 경우가 많다.
+개별 가중치($weight$)를 하나하나 독립적으로 판단하여 지운다. 위치에 제약 조건이 없어서 가장 유연하며, 필요한 부분만 골라 지우기 때문에 정확도 하락이 가장 적다. 하지만 0의 위치가 불규칙하여, 일반적인 컴퓨팅 환경에서는 연산 가속을 기대하기 힘들다. 0을 건너뛰는 복잡한 로직이 하드웨어 수준에서 뒷받침되지 않으면 실제 속도는 그대로인 경우가 많다.
 
 #### ◼️ Coarse-grained (Structed)
 가중치들을 특정 구조 **(Structure)** 단위로 묶어서 한꺼번에 지운다. 행렬의 행이나 열이 통째로 날아가기 때문에 연산 구조 자체가 단순해진다는 장점이 있다. 덕분에 특수한 하드웨어 없이도 **GPU** 나 **CPU** 에서 실제 추론 속도가 빨라지는 결과를 얻을 수 있다. 하지만 덩어리째 지우다 보니 중요한 정보가 포함된 채널이나 커널이 통째로 사라질 수 있어, 정확도를 방어하기가 훨씬 까다롭다.
@@ -38,7 +38,7 @@ category: ModelCompression
 ### 🟩 Granularity의 다양한 종류
 위에서는 크게 두 종류로 나눴지만, 실제로는 얼마나 묶느냐에 따라 더 세부적인 방법들이 존재한다. 미세한 단위부터 큰 단위까지 5가지를 알아보자.
 <p align="center">
-  <img src="/images/ModelCompression/pruning_five.jpg"
+  <img src="/images/ModelCompression/pruning_2.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 
@@ -49,9 +49,13 @@ category: ModelCompression
 
 #### ◼️ Pattern-based Pruning
 최근 **NVIDIA Ampere** 구조에서 채택하며 유명해진 방식이다. **Fine-grained** 의 정확도와 **Structured** 의 가속 성능 사이에서 타협점을 찾은 방식이다.
+<p align="center">
+  <img src="/images/ModelCompression/pruning_3.jpg"
+       style="width: 600px; max-width: 100%;">
+</p>
 
 * **N:M sparsity:** $M$ 개의 연속적인 원소 중에서 $N$ 개를 푸르닝하는 방식이다. 대표적으로 **2:4 Sparsity** 가 있는데, 연속된 4개 가중치 중 2개는 반드시 0이어야 한다는 규칙을 준다.
-* **특징:** 규칙적인 패던 덕분에 하드웨어 가속에 이점이 있으면서도, 상대적으로 높은 Sparsity를 달성할 수 있다.
+* **특징:** 규칙적인 패 덕분에 하드웨어 가속에 이점이 있으면서도, 상대적으로 높은 Sparsity를 달성할 수 있다.
 * **단점:** 0이 아닌 값 **(Non-zero values)** 들만 모아서 압축할 때, 나중에 연산하기 위해 원래 어떤 위치에 있었는지 알려주는 추가적인 **Index** 저장 공간이 필요하다.
 
 #### ◼️ Vector-level Pruning
@@ -79,19 +83,34 @@ category: ModelCompression
 **Magnitude-Based Pruning** 방식은 **Heuristic Pruning Criterion** 이라고도 불린다. 가중치의 절댓값이 크면 중요도가 높고, 작으면 중요도가 낮다고 보는 직관적인 방식이다. 가중치의 크기를 어떻게 묶어서 비교하느냐에 따라 세부적으로 나뉜다.
 
 #### ◼️ Element-wise Pruning
+<p align="center">
+  <img src="/images/ModelCompression/pruning_4.jpg"
+       style="width: 600px; max-width: 100%;">
+</p>
 개별 가중치 하나하나의 크기를 독립적으로 비교한다. **L1 norm** 을 사용하여 가중치의 절대값을 중요도로 판단한다.
 * **Importance:** $s = |w|$
 
 #### ◼️ Row-wise Pruning (L1)
-행(Row) 단위로 가중치들의 절대값을 모두 더해 해당 행의 중요도를 결정한다. 어떤 행(벡터)을 통째로 날릴지 정할 때 사용한다.
-Element-wise로 푸르닝 하는 것보다 정확도 떨어진다는 거 추가
+<p align="center">
+  <img src="/images/ModelCompression/pruning_5.jpg"
+       style="width: 600px; max-width: 100%;">
+</p>
+행(Row) 단위로 가중치들의 절대값을 모두 더해 해당 행의 중요도를 결정한다. 어떤 행(벡터)을 통째로 날릴지 정할 때 사용한다. 중요한 정보를 담고 있는 파라미터까지 한꺼번에 날아갈 위험이 있어 상대적으로 정확도가 떨어진다.
 * **Importance:** $s = \sum_{j} |w_{ij}|$
 
 #### ◼️ Row-wise Pruning (L2)
+<p align="center">
+  <img src="/images/ModelCompression/pruning_6.jpg"
+       style="width: 600px; max-width: 100%;">
+</p>
 행 단위로 계산하되, **L2 norm** 을 사용한다. 각 요소의 제곱 합에 루트를 씌워 중요도를 측정하며, L1보다 큰 값에 더 민감하게 반응하는 특성이 있다.
 * **Importance:** $s = \sqrt{\sum_{j} w_{ij}^{2}}$
 
 ### 🟩 Scaling-based Pruning
+<p align="center">
+  <img src="/images/ModelCompression/pruning_7.jpg"
+       style="width: 600px; max-width: 100%;">
+</p>
 채널 푸르닝(Channel Pruning)에서 가장 대중적으로 사용되는 방식 중 하나이며, **Batch Normalization (BN)** 과정에서 사용하는 **스케일링 인자($\gamma$)**를 채널의 중요도 지표로 활용한다. BN 은 채널별로 정규화를 거친 뒤 $y = \gamma \hat{x} + \beta$ 식을 통해 값을 조절하는데, 이때 $\gamma$ 가 매우 작다면 해당 채널이 최종 출력에 영향의 거의 끼치지 않는다고 판단하는 것이다.
 
 * **특징:** 일반적인 **Magnitude** 방식은 학습 완료 후 별도의 중요도 계산 과정이 필요하지만, 이 방식은 이미 학습된 파라미터($\gamma$)를 그대로 사용하므로 효율적이다. 그리고 채널 푸르닝은 단순히 커널의 값을 0으로 만드는 게 아니라, 해당 채널(필터)을 아예 삭제해버린다. 따라서 모델의 구조가 물리적으로 작아지며 메모리 사용량을 획기적으로 줄일 수 있다.
@@ -99,6 +118,10 @@ Element-wise로 푸르닝 하는 것보다 정확도 떨어진다는 거 추가
 * **한계:** 하지만 $\gamma$ 값이 실제 채널의 중요도를 완벽하게 대변하지 못할 수도 있다. 이를 보완하기 위해 별도의 **Importance Score** 파라미터를 추가하여 학습시킨 뒤, 그 점수를 기준으로 푸르닝을 진행하기도 한다.
 
 ### 🟩 Regression-based Pruning
+<p align="center">
+  <img src="/images/ModelCompression/pruning_8.jpg"
+       style="width: 600px; max-width: 100%;">
+</p>
 푸르닝 전후의 출력값 차이, 즉 **Reconstruction Error** 자체를 최소화하도록 학습(최적화)하는 방식이다.
 
 $$\min_{W, \beta} \| Z - \hat{Z} \|_{F}^{2} = \| Z - \sum_{c=0}^{C-1} \beta_{c} X_{c} W_{c}^{T} \|_{F}^{2} \quad \text{s.t.} \quad \|\beta\|_{0} \le N$$
@@ -133,6 +156,4 @@ $$\min_{W, \beta} \| Z - \hat{Z} \|_{F}^{2} = \| Z - \sum_{c=0}^{C-1} \beta_{c} 
 ## ☺️ 마치며
 이번에는 푸르닝을 설계할 때 반드시 고려해야 할 두 가지 핵심 요소를 알아봤다. 하나는 어떤 덩어리로 잘라낼지를 결정하여 연산 속도에 관여하는 **Granularity (푸르닝 단위)**였고, 다른 하나는 무엇이 중요한지를 판단하여 모델의 지능을 결정하는 **Criterion (푸르닝 기준)**이었다.
 
-하지만 푸르닝 설계에는 아주 중요한 요소가 하나 더 남아 있다. 바로 "각 레이어마다 얼마나 깎을 것인가" 를 결정하는 **Ratio (푸르닝 비율)** 문제다. 모든 레이어를 똑같은 비율로 깎으면 효율이 떨어지기 때문에, 레이어별 민감도를 파악하는 것이 핵심인데 이 내용은 다음 포스팅에서 자세히 다뤄보겠다. 더불에 하드웨어 레벨에서 푸르닝을 어떻게 실제 연산 가속으로 연결하는지 까지 같이 알아보겠다.
-
-
+하지만 푸르닝 설계에는 아주 중요한 요소가 하나 더 남아 있다. 바로 "각 레이어마다 얼마나 깎을 것인가" 를 결정하는 **Ratio (푸르닝 비율)** 문제다. 모든 레이어를 똑같은 비율로 깎으면 효율이 떨어지기 때문에, 레이어별 민감도를 파악하는 것이 핵심인데 이 내용은 다음 포스팅에서 자세히 다뤄보겠다. 더불어 하드웨어 레벨에서 푸르닝을 어떻게 실제 연산 가속으로 연결하는지 까지 같이 알아보겠다.
