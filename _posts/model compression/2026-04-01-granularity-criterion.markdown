@@ -23,10 +23,7 @@ category: ModelCompression
 간단하게 말하자면 "가중치 하나하나를 자유롭게 지울 것인가, 아니면 일정한 규칙이나 덩어리로 묶어서 지울 것인가?"를 결정하는 기준이다. 일반적으로 단위를 세밀하게 할수록 모델의 유연성이 살아나 정확도 유지에는 유리하지만, 하드웨어에서 연산 속도를 높이기는 어려워진다. 반대로 단위를 크게 묶으면 하드웨어 가속은 쉽지만, 중요한 파라미터가 통째로 날아가 정확도가 떨어질 위험이 크다는 **Trade-off** 관계를 지닌다.
 
 ### 🟩 Fine-grained vs Coarse-grained
-<p align="center">
-  <img src="/images/ModelCompression/granularity_1.jpg"
-       style="width: 600px; max-width: 100%;">
-</p>
+![image](/images/ModelCompression/granularity_1.jpg)
 푸르닝 단위는 크게 두 가지로 나눌 수 있다.
 
 #### ◼️ Fine-grained (Unstructured)
@@ -37,10 +34,7 @@ category: ModelCompression
 
 ### 🟩 Granularity의 다양한 종류
 
-<p align="center">
-  <img src="/images/ModelCompression/granularity_2.jpg"
-       style="width: 600px; max-width: 100%;">
-</p>
+![image](/images/ModelCompression/granularity_2.jpg)
 
 위에서는 크게 두 종류로 나눴지만, 실제로는 얼마나 묶느냐에 따라 더 세부적인 방법들이 존재한다. 미세한 단위부터 큰 단위까지 5가지를 알아보자.
 
@@ -50,11 +44,7 @@ category: ModelCompression
 * **한계점:** 0이 무작위로 흩어져 있어 메모리 접근 효율성이 떨어진다. 실제 속도를 높이고 싶다면 이 **Random Sparsity** 를 처리할 수 있는 커스텀 하드웨어가 필요하다.
 
 #### ◼️ Pattern-based Pruning
-
-<p align="center">
-  <img src="/images/ModelCompression/granularity_3.jpg"
-       style="width: 600px; max-width: 100%;">
-</p>
+![image](/images/ModelCompression/granularity_3.jpg)
 최근 **NVIDIA Ampere** 구조에서 채택하며 유명해진 방식이다. **Fine-grained** 의 정확도와 **Structured** 의 가속 성능 사이에서 타협점을 찾은 방식이다.
 
 * **N:M sparsity:** $M$ 개의 연속적인 원소 중에서 $N$ 개를 푸르닝하는 방식이다. 대표적으로 **2:4 Sparsity** 가 있는데, 연속된 4개 가중치 중 2개는 반드시 0이어야 한다는 규칙을 준다.
@@ -86,34 +76,22 @@ category: ModelCompression
 **Magnitude-Based Pruning** 방식은 **Heuristic Pruning Criterion** 이라고도 불린다. 가중치의 절댓값이 크면 중요도가 높고, 작으면 중요도가 낮다고 보는 직관적인 방식이다. 가중치의 크기를 어떻게 묶어서 비교하느냐에 따라 세부적으로 나뉜다.
 
 #### ◼️ Element-wise Pruning
-<p align="center">
-  <img src="/images/ModelCompression/granularity_4.jpg"
-       style="width: 600px; max-width: 100%;">
-</p>
+![image](/images/ModelCompression/granularity_4.jpg)
 개별 가중치 하나하나의 크기를 독립적으로 비교한다. **L1 norm** 을 사용하여 가중치의 절대값을 중요도로 판단한다.
 * **Importance:** $s = |w|$
 
 #### ◼️ Row-wise Pruning (L1)
-<p align="center">
-  <img src="/images/ModelCompression/granularity_5.jpg"
-       style="width: 600px; max-width: 100%;">
-</p>
+![image](/images/ModelCompression/granularity_5.jpg)
 행(Row) 단위로 가중치들의 절대값을 모두 더해 해당 행의 중요도를 결정한다. 어떤 행(벡터)을 통째로 날릴지 정할 때 사용한다. 중요한 정보를 담고 있는 파라미터까지 한꺼번에 날아갈 위험이 있어 상대적으로 정확도가 떨어진다.
 * **Importance:** $s = \sum_{j} |w_{ij}|$
 
 #### ◼️ Row-wise Pruning (L2)
-<p align="center">
-  <img src="/images/ModelCompression/granularity_6.jpg"
-       style="width: 600px; max-width: 100%;">
-</p>
+![image](/images/ModelCompression/granularity_6.jpg)
 행 단위로 계산하되, **L2 norm** 을 사용한다. 각 요소의 제곱 합에 루트를 씌워 중요도를 측정하며, L1보다 큰 값에 더 민감하게 반응하는 특성이 있다.
 * **Importance:** $s = \sqrt{\sum_{j} w_{ij}^{2}}$
 
 ### 🟩 Scaling-based Pruning
-<p align="center">
-  <img src="/images/ModelCompression/granularity_7.jpg"
-       style="width: 600px; max-width: 100%;">
-</p>
+![image](/images/ModelCompression/granularity_7.jpg)
 채널 푸르닝(Channel Pruning)에서 가장 대중적으로 사용되는 방식 중 하나이며, **Batch Normalization (BN)** 과정에서 사용하는 **스케일링 인자($\gamma$)**를 채널의 중요도 지표로 활용한다. BN 은 채널별로 정규화를 거친 뒤 $y = \gamma \hat{x} + \beta$ 식을 통해 값을 조절하는데, 이때 $\gamma$ 가 매우 작다면 해당 채널이 최종 출력에 영향의 거의 끼치지 않는다고 판단하는 것이다.
 
 * **특징:** 일반적인 **Magnitude** 방식은 학습 완료 후 별도의 중요도 계산 과정이 필요하지만, 이 방식은 이미 학습된 파라미터($\gamma$)를 그대로 사용하므로 효율적이다. 그리고 채널 푸르닝은 단순히 커널의 값을 0으로 만드는 게 아니라, 해당 채널(필터)을 아예 삭제해버린다. 따라서 모델의 구조가 물리적으로 작아지며 메모리 사용량을 획기적으로 줄일 수 있다.
@@ -121,10 +99,8 @@ category: ModelCompression
 * **한계:** 하지만 $\gamma$ 값이 실제 채널의 중요도를 완벽하게 대변하지 못할 수도 있다. 이를 보완하기 위해 별도의 **Importance Score** 파라미터를 추가하여 학습시킨 뒤, 그 점수를 기준으로 푸르닝을 진행하기도 한다.
 
 ### 🟩 Regression-based Pruning
-<p align="center">
-  <img src="/images/ModelCompression/granularity_8.jpg"
-       style="width: 600px; max-width: 100%;">
-</p>
+![image](/images/ModelCompression/granularity_8.jpg)
+
 푸르닝 전후의 출력값 차이, 즉 **Reconstruction Error** 자체를 최소화하도록 학습(최적화)하는 방식이다.
 
 $$\min_{W, \beta} \| Z - \hat{Z} \|_{F}^{2} = \| Z - \sum_{c=0}^{C-1} \beta_{c} X_{c} W_{c}^{T} \|_{F}^{2} \quad \text{s.t.} \quad \|\beta\|_{0} \le N$$
