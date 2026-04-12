@@ -23,8 +23,7 @@ category: ModelCompression
 간단하게 말하자면 "가중치 하나하나를 자유롭게 지울 것인가, 아니면 일정한 규칙이나 덩어리로 묶어서 지울 것인가?"를 결정하는 단위라고 볼 수 있다. 일반적으로 단위를 세밀하게 할수록 정확도 유지에는 유리하지만, 하드웨어에서 연산 속도를 높이기는 어려워진다. 반대로 단위를 크게 묶으면 하드웨어 가속은 쉽지만 정확도가 떨어질 위험이 크다.는 trade off 관계를 지닌다.
 
 ### 🟩 Fine-grained vs Coarse-grained
-<img style="max-width: 100%; width: 800px;"
-     src="https://raw.githubusercontent.com/youngjun-cv/ModelCompression/images/pruning_structed.jpg">
+<img src="/ModelCompression/images/pruning_structed.jpg" style="max-width: 100%, width: 800px;">
 
 Granularity 단위는 크게 두 가지로 나눌 수 있다.
 
