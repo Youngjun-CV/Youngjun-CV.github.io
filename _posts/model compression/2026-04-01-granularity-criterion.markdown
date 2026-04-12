@@ -23,11 +23,11 @@ category: ModelCompression
 간단하게 말하자면 "가중치 하나하나를 자유롭게 지울 것인가, 아니면 일정한 규칙이나 덩어리로 묶어서 지울 것인가?"를 결정하는 기준이다. 일반적으로 단위를 세밀하게 할수록 모델의 유연성이 살아나 정확도 유지에는 유리하지만, 하드웨어에서 연산 속도를 높이기는 어려워진다. 반대로 단위를 크게 묶으면 하드웨어 가속은 쉽지만, 중요한 파라미터가 통째로 날아가 정확도가 떨어질 위험이 크다는 **Trade-off** 관계를 지닌다.
 
 ### 🟩 Fine-grained vs Coarse-grained
-푸르닝 단위는 크게 두 가지로 나눌 수 있다.
 <p align="center">
   <img src="/images/ModelCompression/granularity_1.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
+푸르닝 단위는 크게 두 가지로 나눌 수 있다.
 
 #### ◼️ Fine-grained (Unstructured)
 개별 가중치($weight$)를 하나하나 독립적으로 판단하여 지운다. 위치에 제약 조건이 없어서 가장 유연하며, 필요한 부분만 골라 지우기 때문에 정확도 하락이 가장 적다. 하지만 0의 위치가 불규칙하여, 일반적인 컴퓨팅 환경에서는 연산 가속을 기대하기 힘들다. 0을 건너뛰는 복잡한 로직이 하드웨어 수준에서 뒷받침되지 않으면 실제 속도는 그대로인 경우가 많다.
@@ -36,11 +36,13 @@ category: ModelCompression
 가중치들을 특정 구조 **(Structure)** 단위로 묶어서 한꺼번에 지운다. 행렬의 행이나 열이 통째로 날아가기 때문에 연산 구조 자체가 단순해진다는 장점이 있다. 덕분에 특수한 하드웨어 없이도 **GPU** 나 **CPU** 에서 실제 추론 속도가 빨라지는 결과를 얻을 수 있다. 하지만 덩어리째 지우다 보니 중요한 정보가 포함된 채널이나 커널이 통째로 사라질 수 있어, 정확도를 방어하기가 훨씬 까다롭다.
 
 ### 🟩 Granularity의 다양한 종류
-위에서는 크게 두 종류로 나눴지만, 실제로는 얼마나 묶느냐에 따라 더 세부적인 방법들이 존재한다. 미세한 단위부터 큰 단위까지 5가지를 알아보자.
+
 <p align="center">
   <img src="/images/ModelCompression/granularity_2.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
+
+위에서는 크게 두 종류로 나눴지만, 실제로는 얼마나 묶느냐에 따라 더 세부적인 방법들이 존재한다. 미세한 단위부터 큰 단위까지 5가지를 알아보자.
 
 #### ◼️ Fine-grained Pruning
 가장 기초적인 단위로, 가중치 행렬 내의 개별 요소를 자유롭게 제거한다.
@@ -48,11 +50,12 @@ category: ModelCompression
 * **한계점:** 0이 무작위로 흩어져 있어 메모리 접근 효율성이 떨어진다. 실제 속도를 높이고 싶다면 이 **Random Sparsity** 를 처리할 수 있는 커스텀 하드웨어가 필요하다.
 
 #### ◼️ Pattern-based Pruning
-최근 **NVIDIA Ampere** 구조에서 채택하며 유명해진 방식이다. **Fine-grained** 의 정확도와 **Structured** 의 가속 성능 사이에서 타협점을 찾은 방식이다.
+
 <p align="center">
   <img src="/images/ModelCompression/granularity_3.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
+최근 **NVIDIA Ampere** 구조에서 채택하며 유명해진 방식이다. **Fine-grained** 의 정확도와 **Structured** 의 가속 성능 사이에서 타협점을 찾은 방식이다.
 
 * **N:M sparsity:** $M$ 개의 연속적인 원소 중에서 $N$ 개를 푸르닝하는 방식이다. 대표적으로 **2:4 Sparsity** 가 있는데, 연속된 4개 가중치 중 2개는 반드시 0이어야 한다는 규칙을 준다.
 * **특징:** 규칙적인 패 덕분에 하드웨어 가속에 이점이 있으면서도, 상대적으로 높은 Sparsity를 달성할 수 있다.
