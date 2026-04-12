@@ -25,7 +25,7 @@ category: ModelCompression
 ### 🟩 Fine-grained vs Coarse-grained
 푸르닝 단위는 크게 두 가지로 나눌 수 있다.
 <p align="center">
-  <img src="/images/ModelCompression/pruning_1.jpg"
+  <img src="/images/ModelCompression/granularity_1.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 
@@ -38,7 +38,7 @@ category: ModelCompression
 ### 🟩 Granularity의 다양한 종류
 위에서는 크게 두 종류로 나눴지만, 실제로는 얼마나 묶느냐에 따라 더 세부적인 방법들이 존재한다. 미세한 단위부터 큰 단위까지 5가지를 알아보자.
 <p align="center">
-  <img src="/images/ModelCompression/pruning_2.jpg"
+  <img src="/images/ModelCompression/granularity_2.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 
@@ -50,7 +50,7 @@ category: ModelCompression
 #### ◼️ Pattern-based Pruning
 최근 **NVIDIA Ampere** 구조에서 채택하며 유명해진 방식이다. **Fine-grained** 의 정확도와 **Structured** 의 가속 성능 사이에서 타협점을 찾은 방식이다.
 <p align="center">
-  <img src="/images/ModelCompression/pruning_3.jpg"
+  <img src="/images/ModelCompression/granularity_3.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 
@@ -84,7 +84,7 @@ category: ModelCompression
 
 #### ◼️ Element-wise Pruning
 <p align="center">
-  <img src="/images/ModelCompression/pruning_4.jpg"
+  <img src="/images/ModelCompression/granularity_4.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 개별 가중치 하나하나의 크기를 독립적으로 비교한다. **L1 norm** 을 사용하여 가중치의 절대값을 중요도로 판단한다.
@@ -92,7 +92,7 @@ category: ModelCompression
 
 #### ◼️ Row-wise Pruning (L1)
 <p align="center">
-  <img src="/images/ModelCompression/pruning_5.jpg"
+  <img src="/images/ModelCompression/granularity_5.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 행(Row) 단위로 가중치들의 절대값을 모두 더해 해당 행의 중요도를 결정한다. 어떤 행(벡터)을 통째로 날릴지 정할 때 사용한다. 중요한 정보를 담고 있는 파라미터까지 한꺼번에 날아갈 위험이 있어 상대적으로 정확도가 떨어진다.
@@ -100,7 +100,7 @@ category: ModelCompression
 
 #### ◼️ Row-wise Pruning (L2)
 <p align="center">
-  <img src="/images/ModelCompression/pruning_6.jpg"
+  <img src="/images/ModelCompression/granularity_6.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 행 단위로 계산하되, **L2 norm** 을 사용한다. 각 요소의 제곱 합에 루트를 씌워 중요도를 측정하며, L1보다 큰 값에 더 민감하게 반응하는 특성이 있다.
@@ -108,7 +108,7 @@ category: ModelCompression
 
 ### 🟩 Scaling-based Pruning
 <p align="center">
-  <img src="/images/ModelCompression/pruning_7.jpg"
+  <img src="/images/ModelCompression/granularity_7.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 채널 푸르닝(Channel Pruning)에서 가장 대중적으로 사용되는 방식 중 하나이며, **Batch Normalization (BN)** 과정에서 사용하는 **스케일링 인자($\gamma$)**를 채널의 중요도 지표로 활용한다. BN 은 채널별로 정규화를 거친 뒤 $y = \gamma \hat{x} + \beta$ 식을 통해 값을 조절하는데, 이때 $\gamma$ 가 매우 작다면 해당 채널이 최종 출력에 영향의 거의 끼치지 않는다고 판단하는 것이다.
@@ -119,7 +119,7 @@ category: ModelCompression
 
 ### 🟩 Regression-based Pruning
 <p align="center">
-  <img src="/images/ModelCompression/pruning_8.jpg"
+  <img src="/images/ModelCompression/granularity_8.jpg"
        style="width: 600px; max-width: 100%;">
 </p>
 푸르닝 전후의 출력값 차이, 즉 **Reconstruction Error** 자체를 최소화하도록 학습(최적화)하는 방식이다.
