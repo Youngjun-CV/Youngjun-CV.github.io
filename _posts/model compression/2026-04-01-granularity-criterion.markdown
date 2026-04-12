@@ -102,7 +102,7 @@ category: ModelCompression
 * **한계:** 하지만 $\gamma$ 값이 실제 채널의 중요도를 완벽하게 대변하지 못할 수도 있다. 이를 보완하기 위해 별도의 **Importance Score** 파라미터를 추가하여 학습시킨 뒤, 그 점수를 기준으로 푸르닝을 진행하기도 한다.
 
 ### 🟩 Regression-based Pruning
-![image](/images/ModelCompression/granularity_8.jpg)
+![image](/images/ModelCompression/granularity_9.jpg)
 
 푸르닝 전후의 출력값 차이, 즉 **Reconstruction Error** 자체를 최소화하도록 학습(최적화)하는 방식이다.
 
