@@ -78,16 +78,19 @@ category: ModelCompression
 #### ◼️ Element-wise Pruning
 ![image](/images/ModelCompression/granularity_4.jpg)
 개별 가중치 하나하나의 크기를 독립적으로 비교한다. **L1 norm** 을 사용하여 가중치의 절대값을 중요도로 판단한다.
-* **Importance:** $s = |w|$
+
+* **Importance:** $s = \|w\|$
 
 #### ◼️ Row-wise Pruning (L1)
 ![image](/images/ModelCompression/granularity_5.jpg)
 행(Row) 단위로 가중치들의 절대값을 모두 더해 해당 행의 중요도를 결정한다. 어떤 행(벡터)을 통째로 날릴지 정할 때 사용한다. 중요한 정보를 담고 있는 파라미터까지 한꺼번에 날아갈 위험이 있어 상대적으로 정확도가 떨어진다.
-* **Importance:** $s = \sum_{j} |w_{ij}|$
+
+* **Importance:** $s = \sum_{j} \|w_{ij}\|$
 
 #### ◼️ Row-wise Pruning (L2)
 ![image](/images/ModelCompression/granularity_6.jpg)
 행 단위로 계산하되, **L2 norm** 을 사용한다. 각 요소의 제곱 합에 루트를 씌워 중요도를 측정하며, L1보다 큰 값에 더 민감하게 반응하는 특성이 있다.
+
 * **Importance:** $s = \sqrt{\sum_{j} w_{ij}^{2}}$
 
 ### 🟩 Scaling-based Pruning
