@@ -43,7 +43,7 @@ category: ModelCompression
 하지만 이 방식은 각 레이어를 독립적으로 분석한다는 치명적인 한계가 있다. 실제 환경에서는 여러 레이어가 동시에 푸르닝될 때 발생하는 **상호작용(Joint Sensitivity)** 을 반영하지 못하므로, 사람이 휴리스틱하게 최적의 조합을 찾는 데는 엄청난 시행착오와 비용이 따르게 된다.
 
 ### 🟩 AMC: AutoML for Model Compression
-<img src="/images/ModelCompression/ratio_3.jpg" width="70%">
+<img src="/images/ModelCompression/ratio_3.jpg" style="width:70%;">
 이러한 수동 분석의 한계를 극복하고 최적의 비율 조합을 자동화하기 위해 등장한 것이 바로 **AMC** 다. 강화학습 에이전트가 모델의 환경을 탐색하며 최적의 경량화 전략을 스스로 학습한다.
 
 #### ◼️ 작동 메커니즘 (DDPG Agent 기반)
@@ -69,7 +69,7 @@ AMC를 사용하면 사람이 설계한 것보다 더 높은 압축률에서도 
 지난 포스팅에서 다뤘던 **Pattern-based Pruning** 이 실제 하드웨어에서 구현되는 방식이다. NVIDIA는 정확도 하락을 최소화하면서도 하드웨어 가속 효율을 극대화하기 위해 **2:4 Sparsity** (4개 중 2개는 반드시 0) 방식을 사용한다.
 
 #### ◼️ 1단계: 행렬 압축 (Compression)
-<img src="/images/ModelCompression/ratio_5.jpg" width="70%">
+<img src="/images/ModelCompression/ratio_5.jpg" style="width:70%;">
 원본 가중치 행렬에서 0이 아닌 값(Non-zero values)들만 골라내어 압축한다. 이때 두 가지 데이터가 생성된다.
 
 * **Non-zero Data Values:** 0을 제외한 실제 가중치 값들만 모은 데이터다. 이를 통해 메모리 크기를 절반으로 줄인다.
