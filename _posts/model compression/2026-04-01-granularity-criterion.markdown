@@ -154,7 +154,7 @@ $$
 
 * **Transformer:** 입력 시퀀스 길이에 따라 연산량이 크게 변하며, Self-Attention 구조를 기반으로 한다.
 
-### 3.2 Transformer의 주 전략
+### 3.2 Transformer의 주요 전략
 
 #### ◼️ Token Pruning (Input Pruning)
 * **특징:** 중요도가 낮은 토큰을 제거하여 입력 시퀀스 길이를 감소시킨다.
