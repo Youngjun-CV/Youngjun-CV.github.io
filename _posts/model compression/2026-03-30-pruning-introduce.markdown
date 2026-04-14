@@ -15,6 +15,7 @@ category: ModelCompression
 ---
 
 ## 🪶 1. 경량화가 필요한 이유
+<img src="/images/ModelCompression/pruning_start_1.jpg" style="width:70%;">
 현대 AI 모델의 흐름을 보면 **Inception v3**, **ResNet-101**과 같이 높은 성능을 가진 모델들은 수천만 개의 파라미터와 수십억 개의 MACs(연산량)를 필요로 한다. 즉, 성능 향상과 함께 연산 비용 또한 급격히 증가하고 있다.
 
 하지만 단순히 성능이 높다고 해서 실제 환경에서 활용할 수 있는 것은 아니다. 모델의 크기가 커질수록 다양한 문제들이 발생한다.
@@ -38,6 +39,7 @@ category: ModelCompression
 ---
 
 ## 🪵 2. 푸르닝 (Pruning) 이란?
+<img src="/images/ModelCompression/pruning_start_2.jpg" style="width:70%;">
 경량화의 필요성을 이해했다면, 이제 모델 경량화의 대표적인 기법인 **Pruning**을 살펴보자.
 
 ### 2.1 푸르닝의 개념
@@ -97,6 +99,7 @@ $$\arg \min_{W_{P}} L(x; W_{P}) \quad \text{subject to} \quad \|W_{P}\|_{0} \le 
 ---
 
 ## ⚙️ 3. Neural Network Pruning
+<img src="/images/ModelCompression/pruning_start_3.jpg" style="width:70%;">
 푸르닝의 개념을 살펴봤다면, 이제 실제 학습 과정에서 푸르닝이 어떻게 적용되는지 정리해보자.
 
 ### 3.1 푸르닝 워크플로우
@@ -128,6 +131,7 @@ $$\arg \min_{W_{P}} L(x; W_{P}) \quad \text{subject to} \quad \|W_{P}\|_{0} \le 
 푸르닝은 단순한 모델 압축을 넘어, 실제 연산 효율 향상으로 이어질 수 있는 중요한 기법이다.
 
 ### 4.1 모델별 압축 사례: VGG-16
+<img src="/images/ModelCompression/pruning_start_4.jpg" style="width:70%;">
 대표적인 CNN 모델인 VGG-16에 푸르닝을 적용한 결과는 다음과 같다.
 
 * **파라미터 수:** 약 12배 감소 (모델 크기 감소)
