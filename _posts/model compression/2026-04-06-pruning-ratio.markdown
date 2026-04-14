@@ -100,10 +100,18 @@ Pattern-based pruning이 실제 하드웨어에서 구현된 대표적인 사례
 
 압축된 가중치와 입력 데이터가 결합될 때, Tensor Core는 metadata를 활용하여 선택적인 연산을 수행한다.
 
-1. 입력 행렬에서 metadata가 가리키는 위치의 값만 선택한다. **(Gather)**
-2. 선택된 입력값과 압축된 non-zero 값을 1:1로 매칭하여 곱셈을 수행한다.
-3. 불필요한 0 연산이 제거되어, 이론적으로 최대 2배의 속도 향상을 얻을 수 있다.
+1. **Gather**
 
+   입력 행렬에서 metadata가 가리키는 위치의 값만 선택한다.
+
+2. **Element-wise Multiplication**
+ 
+   선택된 입력값과 압축된 non-zero 값을 1:1로 매칭하여 곱셈을 수행한다.
+
+3. **Acceleration**
+ 
+   불필요한 0 연산이 제거되어, 이론적으로 최대 2배의 속도 향상을 얻을 수 있다.
+   
 ### 2.2 Sparse Convolution on Sparse Inputs
 가중치뿐만 아니라 입력 데이터까지 sparse한 경우, 연산량을 크게 줄일 수 있는 방식이다.
 
@@ -130,6 +138,7 @@ Pattern-based pruning이 실제 하드웨어에서 구현된 대표적인 사례
     가중치를 연산기에 고정하고, 해당 가중치와 연산할 입력값들을 순차적으로 처리한다.
 
 4. **Partial Sum Accumulation**
+
     연산 결과를 partial sum 버퍼에 누적하고, 최종적으로 output feature를 생성한다.
 
 ---
