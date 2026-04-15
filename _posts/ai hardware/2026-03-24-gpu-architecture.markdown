@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🚚 GPU Architecture: 병렬 처리를 위한 설계와 구조""
+title: "🚚 GPU Architecture: 병렬 처리를 위한 설계와 구조"
 date: 2026-03-24 21:38:04 +0900
 category: AIhardware
 ---
